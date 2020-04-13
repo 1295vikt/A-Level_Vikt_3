@@ -1,0 +1,24 @@
+﻿@model Blog.Models.ArticleModel
+
+
+<div class="container">
+    <div class="jumbotron">
+        <center>
+            <img src="@Url.Content(Model.Image)" width="720" />
+            <h2>@Html.DisplayFor(model => model.Title)</h2>
+        </center>
+                <p class="text-right"><i>By @ViewBag.Authors[Model.AuthorId]</i></p>
+            <p style="overflow-wrap: break-word">
+                @Html.DisplayFor(model => model.Body)
+            </p>
+            <ul class="list-inline">
+                <li><span><i class="glyphicon glyphicon-calendar"></i>@Html.DisplayFor(modelItem => Model.Date)</span></li>
+                <li>|</li>
+                <li><span><i class="glyphicon glyphicon-comment"></i> #comments placeholder</span></li>
+            </ul>
+    </div>
+</div>
+<p>
+    @*@Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |*@
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,74 @@
+﻿@model IEnumerable<Blog.Models.AuthorModel>
+
+<p>
+    @Html.ActionLink("Add new author", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Nickname
+        </th>
+        <th>
+            Avatar
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName) @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nickname)
+            </td>
+            <td>
+                <img src="@Url.Content(item.Avatar)" width="32" height="32" class="img-circle" />
+            </td>
+            <td>
+                @Html.ActionLink("Edit info", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                <button type="button" class="btn btn-info" data-toggle="modal" data-nick="@item.Nickname" data-id="@item.Id" data-target="#deleteModal">Delete</button>
+            </td>
+        </tr>
+    }
+
+</table>
+
+<div class="modal fade" id="deleteModal" role="dialog">
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete author</h4>
+            </div>
+            <center>
+                <div class="modal-body">
+                </div>
+            </center>
+            <div class="modal-footer">
+                <button type="button" id="confirm" class="btn btn-primary">Yes</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).on('show.bs.modal', '#deleteModal', function (event) {
+            var btn = $(event.relatedTarget)
+            var nick = btn.data('nick')
+            var id = btn.data('id')
+            var modal = $(event.currentTarget)
+            modal.find('.modal-body').text('Are you sure you want to delete ' + nick + '? All published articles will also be deleted.')
+            href = '@Url.Action("Delete", "Author")?id=' + id
+            modal.find('.modal-footer button[id=confirm]').attr('onclick', 'location.href=\'' + href + '\'')
+        })
+    </script>
+    }

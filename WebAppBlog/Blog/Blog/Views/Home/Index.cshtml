@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Blog.Models.ArticleModel>
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <center>
+        <h1>WELCOME!</h1>
+        <h3>Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna. Lorem ipsum!</h3>
+        <img src="https://www.pngitem.com/pimgs/m/207-2073499_translate-platform-from-english-to-spanish-work-in.png" width="384" height="384">
+    </center>
+</div>
+
+<center>
+    <p><h2>Latest articles</h2></p>
+</center>
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-md-4">
+            <div class="well">
+                <center>
+                    <h2>@Html.ActionLink($"{@item.Title}", "Details", "Articles", new { id = item.Id }, null)</h2>
+                    <p><a href="@Url.Action("Details", "Articles", new {id = item.Id}, null)">
+                    <img class="media-object" src="@Url.Content(item.Image)" width="240" height="180"/>
+                    </a></p>
+                </center>
+                <p style="word-wrap:break-word">
+                    @{string substring = item.Body.Length > 200 ? $"{item.Body.Substring(0, 200)}..." : item.Body;}
+                    @Html.DisplayFor(modelItem => substring, new { @class = "form-control" })
+                </p>
+            </div>
+        </div>
+    }
+</div>

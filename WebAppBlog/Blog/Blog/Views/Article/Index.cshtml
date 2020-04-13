@@ -1,0 +1,37 @@
+﻿@model IEnumerable<Blog.Models.ArticleModel>
+
+@{
+    ViewBag.Title = "Articles";
+}
+
+<h2>Articles</h2>
+
+<p>
+    @Html.ActionLink("Create new article", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+    <div class="container">
+        <div class="well">
+            <div class="media">
+                <a class="pull-left" href="@Url.Action("Details", new { id = item.Id})">
+                    <img class="media-object" src="@Url.Content(item.Image)" width="220" height="160" />
+                </a>
+                <div class="media-body">
+                    <h3 class="media-heading">@Html.ActionLink($"{item.Title}", "Details", new { id = item.Id })</h3>
+                    <p class="text-right"><i>By @Html.ActionLink($"{ViewBag.Authors[item.AuthorId]}", "Details", "Authors", new { id = item.AuthorId }, null)</i></p>
+                </div>
+                <p style="overflow-wrap: break-word">
+                    @{string substring = item.Body.Length > 420 ? $"{item.Body.Substring(0, 420)}..." : item.Body;}
+                    @Html.DisplayFor(modelItem => substring)
+                </p>
+                <ul class="list-inline">
+                    <li><span><i class="glyphicon glyphicon-calendar"></i>@Html.DisplayFor(modelItem => item.Date)</span></li>
+                    <li>|</li>
+                    <li><span><i class="glyphicon glyphicon-comment"></i> #comments placeholder</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
